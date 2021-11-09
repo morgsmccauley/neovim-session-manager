@@ -1,8 +1,9 @@
-local telescope = require('telescope')
+local state = require('telescope.actions.state')
 local actions = require('telescope.actions')
 local pickers = require('telescope.pickers')
 local finders = require('telescope.finders')
 local sorters = require('telescope.sorters')
+local telescope = require('telescope')
 local session_manager = require('session_manager')
 
 local function load_session(save_current, opts)
@@ -22,13 +23,13 @@ local function load_session(save_current, opts)
     attach_mappings = function(prompt_bufnr, map)
       local source_session = function()
         actions.close(prompt_bufnr)
-        session_manager.load_session(actions.get_selected_entry(prompt_bufnr).value, save_current)
+        session_manager.load_session(state.get_selected_entry().value, save_current)
       end
 
       actions.select_default:replace(source_session)
 
       local delete_session = function()
-        vim.fn.delete(vim.g.sessions_dir .. actions.get_selected_entry(prompt_bufnr).value)
+        vim.fn.delete(vim.g.sessions_dir .. state.get_selected_entry().value)
         load_session(save_current, opts)
       end
 

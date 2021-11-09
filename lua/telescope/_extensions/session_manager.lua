@@ -34,6 +34,7 @@ local function load_session(save_current, opts)
       end
 
       map('n', 'd', delete_session, { nowait = true })
+      map('i', '<C-x>', delete_session, { nowait = true })
       return true
     end,
   }):find()
